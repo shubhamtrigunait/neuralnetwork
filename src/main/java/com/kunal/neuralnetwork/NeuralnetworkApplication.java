@@ -29,8 +29,8 @@ public class NeuralnetworkApplication {
         List<String> l = new ArrayList<>(keys);
         int numInputNodes = l.size();
         NeuralNetwork brain = new NeuralNetwork(numInputNodes, 10, 3);
-        brain.setLearningRate(0.05);
-        brain.setActivationFunction(new NeuralNetwork.ActivationFunction(Mat.TANH, Mat.TANH_DERIVATIVE));
+        brain.setLearningRate(0.10);
+        brain.setActivationFunction(new NeuralNetwork.ActivationFunction(Mat.SIGMOID, Mat.SIGMOID_DERIVATIVE));
         Set<Integer> indexes = new HashSet<>();
 
         for (int iter = 0; iter < 100; iter++) {
@@ -67,9 +67,10 @@ public class NeuralnetworkApplication {
         List<Integer> indexesList = new ArrayList<>(indexes);
         for (int k = 0; k < indexes.size(); k++) {
             int i = indexesList.get(k);
+            System.out.println(orders.get(i).get("order_number"));
             if (!StringUtils.isEmpty(orders.get(i).get("fulfillment_status")) &&
                     orders.get(i).get("fulfillment_status").toString().equalsIgnoreCase("SHIPPED")) {
-                if (Objects.nonNull(orders.get(i).get("shipment_info")) && ((List) orders.get(i).get("shipment_info")).size() > 0) {
+                if (!StringUtils.isEmpty(orders.get(i).get("shipment_info[0].tracking_number"))) {
                     System.out.println("1 0 0");
                 } else {
                     System.out.println("0 0 1");

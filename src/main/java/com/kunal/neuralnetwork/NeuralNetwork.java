@@ -62,7 +62,7 @@ public class NeuralNetwork implements Cloneable {
      * @param outputNodes
      */
     public NeuralNetwork(int inputNodes, int hiddenNodes, int outputNodes) {
-        this(inputNodes, 1, hiddenNodes, outputNodes);
+        this(inputNodes, 2, hiddenNodes, outputNodes);
     }
 
     public NeuralNetwork(int inputNodes, int hiddenLayers, int hiddenNodes, int outputNodes) {
