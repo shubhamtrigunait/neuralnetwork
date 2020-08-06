@@ -14,6 +14,9 @@ public class OrderDataClassifier {
 
     NeuralNetwork brain;
 
+    /**
+     * Initialises the neural network with weights and biases using file saved after training
+     */
     public void initWeights(int numInputNodes, int numHiddenLayers, int numHiddenNodes, int outputNodes, String file) {
         brain = new NeuralNetwork(numInputNodes, numHiddenLayers, numHiddenNodes, outputNodes);
         try {
@@ -23,6 +26,9 @@ public class OrderDataClassifier {
         }
     }
 
+    /**
+     * Classifies the list of orders into outputs
+     */
     public void classifyOrders(List<Map<String, Object>> orders, Map<String, Integer> keyMap) {
         for (int k = 0; k < orders.size(); k++) {
             Map<String, Object> order = orders.get(k);

@@ -12,6 +12,7 @@ public class NeuralnetworkApplication {
     public static void main(String[] args) {
         SpringApplication.run(NeuralnetworkApplication.class, args);
 
+        //TEST TO CHECK NEURAL NETWORK
         List<Map<String, Object>> orders = OrderDataUtils.readInputFileAsList("input.txt");
         Map<String, Integer> keyMap = OrderDataUtils.getKeySuperSetMapFromList(orders);
         int numInputNodes = keyMap.size();

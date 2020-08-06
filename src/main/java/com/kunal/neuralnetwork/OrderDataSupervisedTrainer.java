@@ -13,12 +13,18 @@ class OrderDataSupervisedTrainer {
 
     NeuralNetwork brain;
 
+    /**
+     * Initialises the neural network with random weights and biases
+     */
     public void init(int numInputNodes, int numHiddenLayers, int numHiddenNodes, int outputNodes) {
         brain = new NeuralNetwork(numInputNodes, numHiddenLayers, numHiddenNodes, outputNodes);
         brain.setLearningRate(0.10);
         brain.setActivationFunction(new NeuralNetwork.ActivationFunction(Mat.SIGMOID, Mat.SIGMOID_DERIVATIVE));
     }
 
+    /**
+     * Trains the neural network using the given list of orders and their desired outputs
+     */
     void trainUsingInput(List<Map<String, Object>> orders, Map<String, Integer> keyHashMap, Integer iterations) {
         int sizeInputList = orders.size();
         for (int i = 0; i < sizeInputList * iterations; i++) {
@@ -30,6 +36,9 @@ class OrderDataSupervisedTrainer {
         }
     }
 
+    /**
+     * Writes the current weight and biases of the neural network to a file
+     */
     void writeWeightsToFile(String fileName) {
         try {
             File file = new File(fileName);
