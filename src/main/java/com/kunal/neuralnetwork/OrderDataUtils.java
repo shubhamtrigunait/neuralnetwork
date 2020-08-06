@@ -27,7 +27,11 @@ class OrderDataUtils {
      */
     static double[] getSupervisedDesiredOutputNodesForOrder(Map<String, Object> order) {
         double[] outputs = new double[3];
-        if (!StringUtils.isEmpty(order.get("fulfillment_status")) &&
+        if (!StringUtils.isEmpty(order.get("retailer_moniker")) &&
+                !order.get("retailer_moniker").toString().equalsIgnoreCase("7forallmankind")) {
+            // SPECIFIES THAT THE ORDER IS FROM INPUT FILE 2 AS RETAILER IS NOT 7forallmankind
+            outputs[2] = 1;
+        } else if (!StringUtils.isEmpty(order.get("fulfillment_status")) &&
                 order.get("fulfillment_status").toString().equalsIgnoreCase("SHIPPED")) {
             if (!StringUtils.isEmpty(order.get("shipment_info[0].tracking_number"))) {
                 // SPECIFIES THAT THE ORDER IS SHIPPED AND HAS SHIPMENTS PRESENT OUTPUT -> 1 0 0
@@ -37,7 +41,7 @@ class OrderDataUtils {
                 outputs[2] = 1;
             }
         } else {
-            // SPECIFIES THAT THE ORDER IS NOT SHIPPED OUTPUT -> 0 0 1
+            // SPECIFIES THAT THE ORDER IS NOT SHIPPED OUTPUT -> 0 1 0
             outputs[1] = 1;
         }
         return outputs;
@@ -46,11 +50,10 @@ class OrderDataUtils {
     /**
      * Returns the value of input nodes for one order
      */
-    static double[] getInputNodesForOrder(Map<String, Object> order, Map<String, Integer> keyHashMap) {
-        int numInputNodes = keyHashMap.size();
+    static double[] getInputNodesForOrder(int numInputNodes, Map<String, Object> order, Map<String, Integer> keyHashMap) {
         List<String> keyList = new ArrayList<>(keyHashMap.keySet());
         double[] inputs = new double[numInputNodes];
-        for (int j = 0; j < numInputNodes; j++) {
+        for (int j = 0; j < keyList.size(); j++) {
             if (Objects.nonNull(order.get(keyList.get(j)))
             ) {
                 // COMPUTING INTEGER HASH FOR THE KEY AND DIVIDING BY MAX VALUE FOR THAT KEY -> RANGE [0,1]
@@ -72,7 +75,11 @@ class OrderDataUtils {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             while ((line = br.readLine()) != null) {
                 // READING THE JSON AS A FLAT MAP TO GET ALL NODES AT INPUT LEVEL
-                orders.add(JsonFlattener.flattenAsMap(line));
+                try {
+                    orders.add(JsonFlattener.flattenAsMap(line));
+                } catch (Exception e) {
+                    log.error("Error in order line : " + orders.size());
+                }
             }
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -88,7 +95,10 @@ class OrderDataUtils {
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map = list.get(i);
             for (Map.Entry<String, Object> entry : map.entrySet()) {
-                Integer hashCode = entry.getValue().hashCode();
+                Integer hashCode = 1;
+                if (Objects.nonNull(entry.getValue())) {
+                    hashCode = entry.getValue().hashCode();
+                }
                 hashCode = abs(hashCode);
                 if (keyHashMap.containsKey(entry.getKey())) {
                     Integer max = keyHashMap.get(entry.getKey());
