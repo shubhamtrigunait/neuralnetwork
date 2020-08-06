@@ -30,8 +30,11 @@ public class NeuralnetworkApplication {
 
         OrderDataSupervisedTrainer orderDataSupervisedTrainer = new OrderDataSupervisedTrainer();
         orderDataSupervisedTrainer.init(maxInputs, 2, 10, 3);
-        orderDataSupervisedTrainer.trainUsingInput(orders, keyMap, 20);
-        orderDataSupervisedTrainer.trainUsingInput(orders2, keyMap2, 20);
+        for (int i = 0; i < 10; i++) {
+            orderDataSupervisedTrainer.trainUsingInput(orders, keyMap, 20);
+            orderDataSupervisedTrainer.trainUsingInput(orders2, keyMap2, 20);
+        }
+
 
         orderDataSupervisedTrainer.writeWeightsToFile("weights.txt");
 

@@ -40,8 +40,6 @@ public class OrderDataClassifier {
             double[] supervisedOutputs = OrderDataUtils.getSupervisedDesiredOutputNodesForOrder(order);
 
             double[] outputs = brain.process(inputs);
-            log.info("SUPERVISED OUTPUT -> " + Arrays.toString(supervisedOutputs));
-            log.info("OUTPUT -> " + Arrays.toString(outputs));
             int desiredIndex = 0;
             int actualIndex = 0;
             for (int i = 0; i < outputs.length; i++) {
@@ -51,6 +49,8 @@ public class OrderDataClassifier {
             if (desiredIndex == actualIndex) {
                 correctClassification++;
             } else {
+                log.info("SUPERVISED OUTPUT -> " + Arrays.toString(supervisedOutputs));
+                log.info("OUTPUT -> " + Arrays.toString(outputs));
                 incorrectClassifications++;
             }
         }
