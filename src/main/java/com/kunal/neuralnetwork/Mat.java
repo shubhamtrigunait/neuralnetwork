@@ -9,8 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * This is a helper class for the {@link NeuralNetwork} class that
  * simply holds a matrix and allows us to perform mass operations on
  * all or certain values of the matrix.
- *
- * @author Hashim Kayani
  */
 public class Mat implements Serializable, Cloneable {
     /**
@@ -126,7 +124,6 @@ public class Mat implements Serializable, Cloneable {
     /**
      * Add the given value to each element in a row and column
      *
-     * @param scl The value to add to each element
      * @return A new neural.Mat with the addition of the parameter
      */
     public Mat add(final double v) {
@@ -157,7 +154,6 @@ public class Mat implements Serializable, Cloneable {
     /**
      * Subtract the given value from each element in this matrix
      *
-     * @param scl The value to subtract from each element
      * @return A new neural.Mat with the subtraction of the parameter
      */
     public Mat subtract(final double v) {
@@ -230,7 +226,7 @@ public class Mat implements Serializable, Cloneable {
     }
 
     /**
-     * {@link https://en.wikipedia.org/wiki/Matrix_multiplication}
+     *
      */
     public Mat mult(final Mat mat) {
         if (cols != mat.rows) throw new RuntimeException("Rows don't match columns");

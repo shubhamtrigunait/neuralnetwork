@@ -14,8 +14,6 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * This class is used to create new Neural Networks, configure them
  * (completely), and alter their functionality.
- *
- * @author Hashim Kayani
  */
 public class NeuralNetwork implements Cloneable {
     /**
