@@ -1,4 +1,4 @@
-package com.kunal.neuralnetwork;
+package com.kunal.neuralnetwork.brain;
 
 import java.io.Serializable;
 import java.util.Arrays;
