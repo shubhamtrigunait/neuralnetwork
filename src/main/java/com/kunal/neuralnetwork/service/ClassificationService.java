@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.kunal.neuralnetwork.utils.OrderDataUtils.getCarrierCategory;
 import static com.kunal.neuralnetwork.utils.OrderDataUtils.getInputNodesForOrder;
@@ -39,7 +40,7 @@ public class ClassificationService {
         try {
             order = objectMapper.readValue(orderInfo, Order.class);
         } catch (JsonProcessingException e) {
-            return new Response("400", "Syntax Error : " + e.getMessage());
+            return new Response("400", "Syntax Error : " + e.getMessage(), "");
         }
         ShipmentCategoryEnums shipmentCategory = getShipmentCategory(order);
         QuantityEnum itemCategory = getItemCategory(order);
@@ -51,10 +52,14 @@ public class ClassificationService {
         Map<String, Object> orderMap = JsonFlattener.flattenAsMap(orderInfo);
         double[] inputs = getInputNodesForOrder(keyMap.size(), orderMap, keyMap);
         double[] outputs = network.process(inputs);
+        String orderNumber = null;
+        if (Objects.nonNull(order.getOrderInfo())) {
+            orderNumber = order.getOrderInfo().getOrderNumber();
+        }
         if (outputs[0] > outputs[1]) {
-            return new Response("200", "No Anomaly In Order Data");
+            return new Response("200", "No Anomaly In Order Data", orderNumber);
         } else {
-            return new Response("400", "Anomaly In Order Data");
+            return new Response("400", "Anomaly In Order Data", orderNumber);
         }
     }
 

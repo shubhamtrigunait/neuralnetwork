@@ -132,7 +132,5 @@ public class TrainerService {
             }
         }
         trainerService.writeWeightsAndKeyMapToFile();
-
-
     }
 }

@@ -46,7 +46,7 @@ import java.util.Map;
 public class OrderInfo {
 
     @JsonProperty("order_number")
-    public Integer orderNumber;
+    public String orderNumber;
     @JsonProperty("order_date")
     public String orderDate;
     @JsonProperty("order_items")
