@@ -23,5 +23,5 @@ public class OrderModel {
     @Column
     private String retailerMoniker;
     @Column
-    private String order;
+    private String orderInfo;
 }

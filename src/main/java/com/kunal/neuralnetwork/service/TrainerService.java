@@ -75,7 +75,7 @@ public class TrainerService {
                 outputs[1] = 1;
             }
             network.train(inputs, outputs);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             log.error("invalid order");
         }
 

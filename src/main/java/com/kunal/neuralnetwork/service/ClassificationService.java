@@ -59,7 +59,7 @@ public class ClassificationService {
         Order order;
         try {
             order = objectMapper.readValue(orderRequest.getOrder(), Order.class);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             return new Response("400", "Syntax Error : " + e.getMessage(), "");
         }
         ShipmentCategoryEnums shipmentCategory = getShipmentCategory(order);
@@ -96,8 +96,9 @@ public class ClassificationService {
     private void saveToDB(String order, String classification, String orderNumber, String retailerMoniker) {
         OrderModel orderModel = new OrderModel();
         orderModel.setClassification(classification);
-        orderModel.setOrder(order);
+        orderModel.setOrderInfo(order);
         orderModel.setRetailerMoniker(retailerMoniker);
+        orderModel.setOrderNumber(orderNumber);
 
         orderRepository.save(orderModel);
     }
