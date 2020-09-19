@@ -16,4 +16,6 @@ public class Response {
     String status;
     @JsonProperty("message")
     String message;
+    @JsonProperty("order_id")
+    String orderId;
 }
